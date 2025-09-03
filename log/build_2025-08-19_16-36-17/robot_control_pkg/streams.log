@@ -1,0 +1,21 @@
+[0.369s] Invoking command in '/home/pc/soomac_ws/build/robot_control_pkg': PYTHONPATH=/home/pc/soomac_ws/build/robot_control_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pc/soomac_ws/install/robot_control_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/pc/soomac_ws/build/robot_control_pkg/build --no-deps symlink_data
+[0.521s] running develop
+[0.606s] running egg_info
+[0.606s] writing robot_control_pkg.egg-info/PKG-INFO
+[0.606s] writing dependency_links to robot_control_pkg.egg-info/dependency_links.txt
+[0.606s] writing entry points to robot_control_pkg.egg-info/entry_points.txt
+[0.606s] writing requirements to robot_control_pkg.egg-info/requires.txt
+[0.606s] writing top-level names to robot_control_pkg.egg-info/top_level.txt
+[0.607s] reading manifest file 'robot_control_pkg.egg-info/SOURCES.txt'
+[0.608s] writing manifest file 'robot_control_pkg.egg-info/SOURCES.txt'
+[0.609s] running build_ext
+[0.609s] Creating /home/pc/soomac_ws/install/robot_control_pkg/lib/python3.10/site-packages/robot-control-pkg.egg-link (link to .)
+[0.609s] Installing angle_publisher script to /home/pc/soomac_ws/install/robot_control_pkg/lib/robot_control_pkg
+[0.609s] Installing angle_publisher_2 script to /home/pc/soomac_ws/install/robot_control_pkg/lib/robot_control_pkg
+[0.610s] Installing dynamixel_ax_controller script to /home/pc/soomac_ws/install/robot_control_pkg/lib/robot_control_pkg
+[0.610s] Installing main_control script to /home/pc/soomac_ws/install/robot_control_pkg/lib/robot_control_pkg
+[0.610s] Installing motor_test script to /home/pc/soomac_ws/install/robot_control_pkg/lib/robot_control_pkg
+[0.610s] 
+[0.610s] Installed /home/pc/soomac_ws/build/robot_control_pkg
+[0.610s] running symlink_data
+[0.627s] Invoked command in '/home/pc/soomac_ws/build/robot_control_pkg' returned '0': PYTHONPATH=/home/pc/soomac_ws/build/robot_control_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pc/soomac_ws/install/robot_control_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/pc/soomac_ws/build/robot_control_pkg/build --no-deps symlink_data

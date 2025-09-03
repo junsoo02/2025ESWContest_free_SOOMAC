@@ -1,0 +1,17 @@
+running develop
+running egg_info
+writing robot_control_pkg.egg-info/PKG-INFO
+writing dependency_links to robot_control_pkg.egg-info/dependency_links.txt
+writing entry points to robot_control_pkg.egg-info/entry_points.txt
+writing requirements to robot_control_pkg.egg-info/requires.txt
+writing top-level names to robot_control_pkg.egg-info/top_level.txt
+reading manifest file 'robot_control_pkg.egg-info/SOURCES.txt'
+writing manifest file 'robot_control_pkg.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/pc/soomac_ws/install/robot_control_pkg/lib/python3.10/site-packages/robot-control-pkg.egg-link (link to .)
+Installing angle_publisher_2 script to /home/pc/soomac_ws/install/robot_control_pkg/lib/robot_control_pkg
+Installing dynamixel_ax_controller script to /home/pc/soomac_ws/install/robot_control_pkg/lib/robot_control_pkg
+Installing main_control script to /home/pc/soomac_ws/install/robot_control_pkg/lib/robot_control_pkg
+
+Installed /home/pc/soomac_ws/build/robot_control_pkg
+running symlink_data

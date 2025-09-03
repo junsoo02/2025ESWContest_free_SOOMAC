@@ -1,0 +1,8 @@
+[console_scripts]
+angle_publisher = robot_control_pkg.angle_publisher:main
+angle_publisher_2 = robot_control_pkg.angle_publisher_2:main
+dynamixel_ax_controller = robot_control_pkg.dynamixel_ax_controller:main
+dynamixel_ax_controller_2 = robot_control_pkg.dynamixel_ax_controller_2:main
+main_control = robot_control_pkg.main_control:main
+motor_test = robot_control_pkg.motor_test:main
+
