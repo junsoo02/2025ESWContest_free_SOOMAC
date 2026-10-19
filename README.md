@@ -1,4 +1,4 @@
-# SOOMAC
+# 진열이
 
 **음료 인식부터 탐색·집기·운반·배치까지 연동하는 ROS 2 기반 이동형 로봇 시스템**
 
@@ -175,57 +175,4 @@ flowchart LR
 - `angle_publisher.point_trajectory()`는 `atan2`로 베이스 회전을 구하고, 링크 길이와 목표 위치의 연립방정식을 SciPy `fsolve`로 풀어 주요 관절각을 구합니다.
 - 손목 각도와 접근·들어 올리기·배치 위치에는 별도 보정값을 적용합니다. 팔 동작의 단계 전환은 주로 타이머 호출 횟수를 사용합니다.
 
-좌표는 cm, 모터 인터페이스는 degree를 사용합니다. `main_control.py`의 링크 길이 주석에는 mm라고 적혀 있어 실제 사용 단위와 구분해야 합니다.
-
-## 실행 구성
-
-필요한 구성 요소는 ROS 2·`colcon`·`ament_python`, RealSense, Scout 베이스 드라이버, 다이나믹셀, 리프트·초음파 Arduino입니다. Python 라이브러리는 `numpy`, `scipy`, `dynamixel_sdk`, `pyserial`, `pyrealsense2`, `opencv-python`, `ultralytics`, `google-cloud-vision`을 사용합니다. YOLO 가중치와 OCR 인증 파일은 별도로 준비해야 합니다.
-
-ROS 배포판과 라이브러리 버전은 저장소에 고정되어 있지 않습니다. 의존성 선언도 완전하지 않아 `rosdep`만으로 모든 라이브러리가 설치된다고 가정할 수 없습니다.
-
-외부 파일·드라이버·장치 포트를 준비한 Linux ROS 2 환경에서 새로 빌드합니다. 기존 `build/`, `install/`에는 원래 개발 PC의 `/home/pc/soomac_ws` 경로가 남아 있습니다.
-
-```bash
-cd 2025ESWContest_free_SOOMAC
-source /opt/ros/<ROS_DISTRO>/setup.bash
-rosdep install --from-paths src --ignore-src -r -y
-colcon build --symlink-install
-source install/setup.bash
-```
-
-각 노드는 별도 터미널 또는 별도로 작성한 launch 구성에서 실행합니다. 통합 launch 파일은 현재 없습니다.
-
-| 패키지 | 핵심 실행 이름 |
-| --- | --- |
-| `robot_control_pkg` | `main_control`, `angle_publisher`, `dynamixel_ax_controller` |
-| `camtest_pkg` | `Yolo_RealSense_Node`, `transform_node`, `Scout_node` |
-| `linear_motor` | `linear_node` |
-| `ultrasonic_pkg` | `ultrasonic_node`, `GUI_node` |
-
-```bash
-# 예: 좌표 변환 노드 실행
-ros2 run camtest_pkg transform_node
-```
-
-기존 README가 안내한 `src/scout_ros2/scout_base/launch/scout_base.launch.py`는 현재 저장소에 없습니다. `/cmd_vel`을 실제 베이스에 전달할 Scout 드라이버를 별도로 준비해야 합니다.
-
-## 현재 구현 상태
-
-다음은 소스에서 확인한 주요 구동 전 점검 사항입니다. 문서 작성 과정에서 제어 코드를 수정하거나 실제 하드웨어를 구동하지 않았습니다.
-
-| 구분 | 확인된 내용 |
-| --- | --- |
-| 모델·인증 | YOLO 가중치와 OCR 인증 파일이 없습니다. 인식 노드의 `/home/pc/Downloads/...` 경로도 설정해야 합니다. |
-| 실행 항목 | `_2` 실행 모듈은 ZIP 내부에만 있습니다. `motor_test`는 `setup.py`가 지정한 `main()` 함수가 없습니다. |
-| Scout 탐색 완료 | `stop_scout_and_send_to_arm()`이 `cmd`를 생성하기 전에 사용하여 예외가 발생합니다. |
-| Scout 탐색·복귀 | 6구역 분기가 `self.i < 6`에 막혀 있고 `self.self` 오타도 있습니다. 일부 복귀 경로는 이동 종료 전에 완료 신호를 발행합니다. |
-| 장치 포트 | 다이나믹셀과 초음파가 모두 `/dev/ttyUSB0`, 리프트가 `/dev/ttyACM0`으로 고정되어 있어 장치별 구분이 필요합니다. |
-| 리프트 완료 시점 | Python은 1.8~2초 후 다음 단계로 넘어가지만 Arduino는 하강 3초·상승 4초간 구동합니다. 실제 완료 피드백은 사용하지 않습니다. |
-| 콜백 처리 | 모터 콜백의 제한 시간 없는 `while True`와 리프트의 `sleep()`이 다른 콜백·피드백 처리를 지연시킬 수 있습니다. |
-| 메인 타이머 | 음료 코드·변환행렬 발행 타이머가 중복 생성됩니다. |
-| IK 검증 | `fsolve` 수렴 여부와 목표 도달 가능 범위 검사가 없습니다. |
-| GUI | 화면과 ROS↔Arduino 시리얼 연결이 없습니다. Arduino의 숫자 우선 파싱은 문자열 명령을 잘못 분류할 수 있습니다. |
-| 낙하 알림 | `/stop_process`를 받아 팔·베이스를 정지시키는 경로는 없습니다. |
-| 테스트 | `test/`는 저작권·스타일·문서 문자열 검사 위주이며, 전체 동작 통합 테스트는 없습니다. |
-
-코드를 처음 읽을 때는 **`main_control.py` → `angle_publisher.py` → `dynamixel_ax_controller.py`** 순서로 팔의 작업 흐름을 파악한 뒤 인식·Scout·리프트 노드를 살펴보면 전체 연결을 이해하기 쉽습니다.
+좌표는 cm, 모터 인터페이스는 degree를 사용합니다.
